@@ -51,6 +51,7 @@ O objetivo final é construir uma aplicação demonstrável, documentada e que p
 
 <img width="2300" height="1487" alt="image" src="https://github.com/user-attachments/assets/5baff46d-4910-4367-a890-b92dfafcc353" />
 
+![alt text](image.png)
 ---
 
 **Disciplina:** Programação Web II  
