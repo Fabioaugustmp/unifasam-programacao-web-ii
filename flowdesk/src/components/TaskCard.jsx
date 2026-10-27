@@ -1,9 +1,17 @@
-function TaskCard({ title, assignee, priority }) {
+import PriorityBadge from "./PriorityBadge";
+
+function TaskCard({ id, title, assignee, priority, completed = true, onComplete }) {
     return (
-        <article className="task-card">
-            <h3>{title}</h3>
+        <article className={`task-card ${completed ? "task-card--completed" : ""}`}>
+            <h3>{id} - {title}</h3>
             <p>Responsável: {assignee}</p>
-            <p>Prioridade: {priority}</p>
+            <button 
+                type="button"
+                onClick={() => onComplete(id)}
+                disabled={completed} >
+                {completed ? "Tarefa Concluída" : "Concluir Tarefa" }
+            </button>
+            <PriorityBadge priority={priority} />
         </article>
     )
 }

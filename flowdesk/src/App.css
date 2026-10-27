@@ -93,3 +93,55 @@ task-card p {
     padding: 24px 16px;
   }
 }
+
+.priority-badge {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.priority-high {
+  color: #b42318;
+  background: #fee4e2;
+}
+
+.priority-medium {
+  color: #93370d;
+  background: #fef0c7;
+}
+
+.priority-low {
+  color: #027a48;
+  background: #d1fadf;
+}
+
+.task-card button {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #315efb;
+  color: white;
+  cursor: pointer;
+}
+
+.task-card button:hover:not(:disabled) {
+  background: #2448c7;
+}
+
+.task-card button:disabled {
+  background: #d0d5dd;
+  color: #475467;
+  cursor: not-allowed;
+}
+
+.task-card--completed {
+  border-color: #86cfa3;
+}
+
+.task-card--completed h3 {
+  color: #667085;
+  text-decoration: line-through;
+}
