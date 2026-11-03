@@ -30,3 +30,13 @@ export function createTask(taskData) {
     body: JSON.stringify(taskData),
   });
 }
+
+export async function updateTask(id, changes) {
+  const response = await fetch(`http://localhost:3000/api/tasks/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(changes),
+  });
+  if (!response.ok) throw new Error('Não foi possível atualizar a tarefa');
+  return response.json();
+}

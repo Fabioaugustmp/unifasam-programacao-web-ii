@@ -5,7 +5,7 @@ import TaskCard from './components/TaskCard';
 import TaskColumn from './components/TaskColumn';
 import TaskForm from './components/TaskForm';
 import { TASK_STATUSES } from './constants/task';
-import { createTask, listTasks } from './services/taskApi';
+import { createTask, listTasks, updateTask } from './services/taskApi';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -36,8 +36,15 @@ function App() {
     setTasks((currentTasks) => [...currentTasks, createdTask]);
   }
 
-  function handleComplete(taskId) {
-    console.log('Tarefa Concluída:', taskId);
+   async function handleComplete(taskId) {
+    try {
+      const updatedTask = await updateTask(taskId, { status: 'Concluído' });
+      setTasks((currentTasks) =>
+        currentTasks.map((task) => (task.id === taskId ? updatedTask : task)),
+      );
+    } catch (requestError) {
+      setError(requestError.message);
+    }
   }
 
   return (
