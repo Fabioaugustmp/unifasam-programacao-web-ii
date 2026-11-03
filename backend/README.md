@@ -14,6 +14,7 @@ Disponibilizar uma API REST independente para gerenciar as tarefas do FlowDesk, 
 - Express 5
 - Zod (validação de entrada)
 - cors (liberação de acesso para o frontend)
+- swagger-ui-express (documentação interativa da API)
 
 As variáveis do arquivo `.env` são lidas com `process.loadEnvFile`, recurso nativo do Node.js, sem dependência adicional.
 
@@ -50,6 +51,12 @@ Reinicia o servidor quando um arquivo do código muda. Para executar sem esse re
 
 A API fica disponível em **http://localhost:3000/api**.
 
+## Documentação interativa (Swagger)
+
+Com o servidor em execução, abra **http://localhost:3000/api/docs** no navegador. A página lista os endpoints e permite testá-los: escolha um endpoint, clique em **Try it out** e depois em **Execute**.
+
+A especificação OpenAPI fica em `src/docs/openapi.js` e é escrita à mão. Ao mudar uma rota ou um campo, atualize também esse arquivo.
+
 ## Endpoints
 
 | Método   | Rota             | Descrição                     | Sucesso |
@@ -60,6 +67,7 @@ A API fica disponível em **http://localhost:3000/api**.
 | `POST`   | `/api/tasks`     | Cria uma tarefa               | 201     |
 | `PATCH`  | `/api/tasks/:id` | Atualiza campos de uma tarefa | 200     |
 | `DELETE` | `/api/tasks/:id` | Exclui uma tarefa             | 204     |
+| `GET`    | `/api/docs`      | Abre a documentação Swagger   | 200     |
 
 ### Modelo de tarefa
 
@@ -124,7 +132,7 @@ Fora do modo `development`, erros 500 não trazem detalhes internos: o stack tra
 
 ## Como testar
 
-Os exemplos usam `curl`. No PowerShell, chame `curl.exe` em vez de `curl`, pois `curl` pode ser um atalho para outro comando. No Postman, crie uma requisição com o mesmo método e a mesma URL; para enviar dados, escolha **Body → raw → JSON**.
+A forma mais simples de testar é pela [documentação interativa](#documentação-interativa-swagger). Os exemplos abaixo usam `curl`. No PowerShell, chame `curl.exe` em vez de `curl`, pois `curl` pode ser um atalho para outro comando. No Postman, crie uma requisição com o mesmo método e a mesma URL; para enviar dados, escolha **Body → raw → JSON**.
 
 ### Health check
 
@@ -257,6 +265,7 @@ backend/
 ├── src/
 │   ├── config/env.js          # Lê as variáveis de ambiente
 │   ├── data/seed.js           # Tarefas iniciais
+│   ├── docs/openapi.js        # Especificação OpenAPI exibida pelo Swagger
 │   ├── repositories/          # Acesso aos dados (hoje, um array em memória)
 │   ├── services/              # Regras de negócio: timestamps e tarefa inexistente
 │   ├── controllers/           # Recebem a requisição, validam a entrada e enviam a resposta
