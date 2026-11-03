@@ -27,21 +27,45 @@ As funcionalidades serão implementadas gradualmente durante o desenvolvimento d
 - HTML5
 - CSS3
 - Vite
+- Node.js e Express (backend)
 - Git e GitHub
 - Docker *(etapa planejada)*
 
 ## Como executar
 
-Certifique-se de ter o Node.js e o npm instalados.
+Certifique-se de ter o Node.js (20.12 ou superior) e o npm instalados. Depois, clone o repositório e entre na pasta dele:
 
 ```bash
 git clone <URL_DO_REPOSITORIO>
+cd unifasam-programacao-web-ii
+```
+
+O frontend e o backend são projetos independentes. Execute cada um em um terminal próprio, a partir da raiz do repositório.
+
+### Frontend
+
+```bash
 cd flowdesk
 npm install
 npm run dev
 ```
 
-O Vite exibirá no terminal o endereço local para acessar a aplicação no navegador.
+O Vite exibirá no terminal o endereço local para acessar a aplicação no navegador, normalmente http://localhost:5173.
+
+### Backend
+
+```bash
+cd backend
+npm install
+cp .env.example .env
+npm run dev
+```
+
+No PowerShell, use `Copy-Item .env.example .env` no lugar do `cp`.
+
+A API fica disponível em http://localhost:3000/api, e a documentação interativa (Swagger) em http://localhost:3000/api/docs. Os detalhes estão no [README do backend](backend/README.md).
+
+O frontend ainda não consome a API: a integração será feita em uma etapa posterior.
 
 ## Projeto educacional e portfólio
 
