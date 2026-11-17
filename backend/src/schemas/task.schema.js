@@ -45,6 +45,14 @@ export const updateTaskSchema = z
     when: ({ issues }) => issues.length === 0,
   });
 
+// Os IDs vêm da URL como texto e são convertidos para número inteiro positivo.
+export const taskParamsSchema = z.object({
+  id: z
+    .string({ error: 'id é obrigatório' })
+    .regex(/^[1-9]\d*$/, 'id deve ser um número inteiro positivo')
+    .transform(Number),
+});
+
 export const taskFiltersSchema = z.object({
   status: statusSchema.optional(),
   priority: prioritySchema.optional(),

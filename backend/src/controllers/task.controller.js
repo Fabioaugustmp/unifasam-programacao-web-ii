@@ -1,6 +1,7 @@
 import {
   createTaskSchema,
   taskFiltersSchema,
+  taskParamsSchema,
   updateTaskSchema,
 } from '../schemas/task.schema.js';
 import * as taskService from '../services/task.service.js';
@@ -13,7 +14,8 @@ export async function listTasks(req, res) {
 }
 
 export async function getTaskById(req, res) {
-  res.json(await taskService.getTaskById(req.params.id));
+  const { id } = taskParamsSchema.parse(req.params);
+  res.json(await taskService.getTaskById(id));
 }
 
 export async function createTask(req, res) {
@@ -22,11 +24,13 @@ export async function createTask(req, res) {
 }
 
 export async function updateTask(req, res) {
+  const { id } = taskParamsSchema.parse(req.params);
   const changes = updateTaskSchema.parse(req.body);
-  res.json(await taskService.updateTask(req.params.id, changes));
+  res.json(await taskService.updateTask(id, changes));
 }
 
 export async function deleteTask(req, res) {
-  await taskService.deleteTask(req.params.id);
+  const { id } = taskParamsSchema.parse(req.params);
+  await taskService.deleteTask(id);
   res.status(204).end();
 }

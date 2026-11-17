@@ -2,6 +2,16 @@ import { ZodError } from 'zod';
 import { env } from '../config/env.js';
 import { AppError } from '../errors/app-error.js';
 
+// Códigos que o mysql2 usa quando o servidor não responde ou não aceita novas conexões.
+const UNAVAILABLE_DATABASE_ERROR_CODES = new Set([
+  'ECONNREFUSED',
+  'ENOTFOUND',
+  'ETIMEDOUT',
+  'PROTOCOL_CONNECTION_LOST',
+  'PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR',
+  'ER_CON_COUNT_ERROR',
+]);
+
 function formatValidationIssues(issues) {
   return issues.flatMap((issue) => {
     if (issue.code === 'unrecognized_keys') {
@@ -44,6 +54,13 @@ export function errorHandler(error, req, res, next) {
   // Outros erros 4xx gerados pelo Express, como um corpo grande demais.
   if (error.status >= 400 && error.status < 500) {
     sendError(res, error.status, { code: 'BAD_REQUEST', message: 'Requisição inválida' });
+    return;
+  }
+
+  // Banco fora do ar ou sem conexões disponíveis: o cliente pode tentar de novo mais tarde.
+  if (UNAVAILABLE_DATABASE_ERROR_CODES.has(error.code)) {
+    console.error(`Banco de dados indisponível: ${error.code}`);
+    sendError(res, 503, { code: 'SERVICE_UNAVAILABLE', message: 'Banco de dados indisponível no momento' });
     return;
   }
 

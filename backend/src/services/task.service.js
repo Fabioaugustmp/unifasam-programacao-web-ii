@@ -15,14 +15,13 @@ export async function getTaskById(id) {
   return task;
 }
 
+// created_at e updated_at são preenchidos pelo próprio banco de dados.
 export function createTask(taskData) {
-  const now = new Date().toISOString();
-  return taskRepository.create({ ...taskData, createdAt: now, updatedAt: now });
+  return taskRepository.create(taskData);
 }
 
 export async function updateTask(id, changes) {
-  const updatedAt = new Date().toISOString();
-  const task = await taskRepository.update(id, { ...changes, updatedAt });
+  const task = await taskRepository.update(id, changes);
   if (!task) throw taskNotFoundError(id);
   return task;
 }

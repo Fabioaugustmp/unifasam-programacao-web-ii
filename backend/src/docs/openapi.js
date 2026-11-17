@@ -6,9 +6,9 @@ const taskIdParameter = {
   name: 'id',
   in: 'path',
   required: true,
-  description: 'Identificador da tarefa',
-  schema: { type: 'string' },
-  example: 'FD-101',
+  description: 'Identificador numérico da tarefa',
+  schema: { type: 'integer', minimum: 1 },
+  example: 1,
 };
 
 const jsonContent = (schema) => ({ 'application/json': { schema } });
@@ -31,7 +31,7 @@ export const openApiDocument = {
     title: 'FlowDesk API',
     version: '1.0.0',
     description:
-      'API REST do FlowDesk. Os dados ficam em memória e são perdidos quando o servidor reinicia.',
+      'API REST do FlowDesk. As tarefas são armazenadas em MySQL 8.',
   },
   servers: [{ url: '/api' }],
   tags: [
@@ -164,7 +164,7 @@ export const openApiDocument = {
           'updatedAt',
         ],
         properties: {
-          id: { type: 'string', example: 'FD-110' },
+          id: { type: 'integer', example: 10 },
           ...editableTaskProperties,
           createdAt: { type: 'string', format: 'date-time', example: '2026-11-03T18:30:00.000Z' },
           updatedAt: { type: 'string', format: 'date-time', example: '2026-11-03T18:30:00.000Z' },
@@ -239,7 +239,7 @@ export const openApiDocument = {
           'application/json': {
             schema: { $ref: '#/components/schemas/Error' },
             example: {
-              error: { code: 'NOT_FOUND', message: 'Tarefa FD-999 não encontrada' },
+              error: { code: 'NOT_FOUND', message: 'Tarefa 999 não encontrada' },
             },
           },
         },
